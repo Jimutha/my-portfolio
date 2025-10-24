@@ -1,5 +1,87 @@
-import React from "react";
+// src/data/projects.js
+import assets from "../assets/assets";
 
-export default function projects() {
-  return <div></div>;
-}
+// Your projects data, now using the asset manager
+export const PROJECTS = [
+  {
+    id: 1,
+    name: "Pick and Go Mobile",
+    description: "Car Rental System that connects owner and customer.",
+    technologies: ["React Native", "Tailwind CSS", "JavaScript", "MongoDB"],
+    github: "https://github.com/MavithaShehar/pickn-go-mobile.git",
+    tags: "Team",
+    image: assets.placeholderPicknGo,
+  },
+  {
+    id: 2,
+    name: "Food Gallery",
+    description:
+      "Basically Facebook of foods—people can review on foods and receive recipes.",
+    technologies: ["React", "Spring Boot"],
+    github: "https://github.com/Jimutha/FoodGallery.git",
+    tags: "Team",
+    image: assets.placeholderFoodGallery,
+  },
+  {
+    id: 3,
+    name: "ElectroMart",
+    description:
+      "Electronic item selling shop with advanced features like voice commands.",
+    technologies: [
+      "React.js",
+      "Web Speech API",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+    ],
+    github: "https://github.com/IT22269652/ElectroMart.git",
+    tags: "Team",
+    image: assets.placeholderElectroMart,
+  },
+  {
+    id: 4,
+    name: "ABC Online Institute",
+    description: "LMS created for students and teachers using the MERN Stack.",
+    technologies: ["MERN Stack"],
+    github: "https://github.com/devin3706/ITP.git",
+    tags: "Team",
+    image: assets.placeholderABC,
+  },
+  {
+    id: 5,
+    name: "Library Book Manager",
+    description: "Simple library management system for library owners.",
+    technologies: ["React", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
+    github: "https://github.com/Jimutha/library-mana.git",
+    tags: "Individual",
+    image: assets.placeholderLibrary,
+  },
+  {
+    id: 6,
+    name: "Ikman Clone App",
+    description: "Basically a clone app for ikman.lk.",
+    technologies: ["React Native", "JavaScript"],
+    github: "https://github.com/Jimutha/ikam-clone.git",
+    tags: "Individual",
+    image: assets.placeholderIkman,
+  },
+  {
+    id: 7,
+    name: "Task Manager",
+    description: "Task manager App for students.",
+    technologies: ["JavaScript", "CSS"],
+    github: "https://github.com/Jimutha/Task-Manager.git",
+    tags: "Individual",
+    image: assets.placeholderTask,
+  },
+  {
+    id: 8,
+    name: "Kitcher",
+    description: "Egg catching Game developed for mobile.",
+    technologies: ["Kotlin"],
+    github: "https://github.com/Jimutha/KITCHER.git",
+    tags: "Individual",
+    image: assets.placeholderKitcher,
+  },
+];

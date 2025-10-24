@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from "react";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import { theme } from "./theme";
 
-function App() {
-  const [count, setCount] = useState(0)
+// We must inject keyframes globally with a <style> tag.
+// This is the cleanest way to handle animations for inline styles.
+const keyframes = `
+  @keyframes fade-in-out {
+    0%, 100% { 
+      opacity: 0; 
+      transform: translateY(10px); 
+    }
+    10%, 90% { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
 
+  @keyframes wavy {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Keyframes for hero blobs */
+  @keyframes blob-move {
+    0% { transform: scale(1) translate(0px, 0px); }
+    50% { transform: scale(1.2) translate(20px, -30px); }
+    100% { transform: scale(1) translate(0px, 0px); }
+  }
+`;
+
+const styles = {
+  appWrapper: {
+    minHeight: "100vh",
+    backgroundColor: theme.colors.baseLight,
+    color: theme.colors.textDark,
+  },
+  mainContainer: {
+    maxWidth: "72rem", // 6xl
+    margin: "0 auto",
+    padding: "0 1.5rem", // px-6
+  },
+};
+
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      {/* Inject our global animations */}
+      <style>{keyframes}</style>
 
-export default App
+      <div style={styles.appWrapper}>
+        <Header />
+        <main>
+          <Hero />
+
+          <div style={styles.mainContainer}>
+            <About />
+            <Projects />
+            <Contact />
+          </div>
+        </main>
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+export default App;
