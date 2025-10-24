@@ -1,10 +1,10 @@
 // src/components/Header.jsx
 import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { theme } from "../theme";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "../hooks/useTheme";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import MobileNavLink from "./MobileNavLink";
 
-// Reusable hook for hover states
 const useHover = () => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverProps = {
@@ -16,12 +16,13 @@ const useHover = () => {
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, mode, toggleTheme } = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.md);
 
-  // Hover states for links
   const [aboutHover, aboutProps] = useHover();
   const [workHover, workProps] = useHover();
   const [contactHover, contactProps] = useHover();
+  const [themeToggleHover, themeToggleProps] = useHover();
 
   const navItems = [
     { name: "About", href: "#about", isHovered: aboutHover, props: aboutProps },
@@ -44,6 +45,7 @@ const Header = () => {
       backdropFilter: "blur(4px)",
       boxShadow: theme.shadows.small,
       borderBottom: `1px solid ${theme.colors.borderLight}`,
+      transition: theme.transition,
     },
     navContainer: {
       maxWidth: "72rem",
@@ -61,24 +63,36 @@ const Header = () => {
       textDecoration: "none",
       letterSpacing: "0.5px",
     },
-    desktopNav: {
-      display: "flex",
-      gap: "1.5rem",
-    },
+    navControls: { display: "flex", alignItems: "center", gap: "1.5rem" },
+    desktopNav: { display: "flex", gap: "1.5rem" },
     navLinkBase: {
       fontWeight: "500",
-      color: theme.colors.textDark,
+      color: theme.colors.textPrimary,
       transition: "color 0.15s ease",
       textDecoration: "none",
     },
-    navLinkHover: {
+    navLinkHover: { color: theme.colors.accentPrimary },
+    themeToggleButton: {
+      background: "none",
+      border: "none",
+      padding: "0.25rem",
+      cursor: "pointer",
+      color: theme.colors.textSecondary,
+      transition: "color 0.15s ease, transform 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    themeToggleButtonHover: {
       color: theme.colors.accentPrimary,
+      transform: "rotate(15deg)",
     },
     mobileMenuButton: {
       background: "none",
       border: "none",
-      color: theme.colors.textDark,
+      color: theme.colors.textPrimary,
       cursor: "pointer",
+      marginLeft: "1rem",
     },
     mobileNav: {
       position: "absolute",
@@ -92,11 +106,11 @@ const Header = () => {
       overflow: "hidden",
       zIndex: 40,
     },
-    mobileNavLink: {
-      display: "block",
-      padding: "0.75rem 1.5rem",
-      color: theme.colors.textDark,
-      textDecoration: "none",
+    mobileNavList: {
+      display: "flex",
+      flexDirection: "column",
+      padding: "0.5rem",
+      gap: "0.25rem",
     },
   };
 
@@ -108,50 +122,73 @@ const Header = () => {
         </a>
 
         {isDesktop ? (
-          <nav style={styles.desktopNav}>
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                style={{
-                  ...styles.navLinkBase,
-                  ...(item.isHovered ? styles.navLinkHover : {}),
-                }}
-                {...item.props}
-              >
-                {item.name}
-              </a>
-            ))}
-          </nav>
+          <div style={styles.navControls}>
+            <nav style={styles.desktopNav}>
+              {navItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  style={{
+                    ...styles.navLinkBase,
+                    ...(item.isHovered ? styles.navLinkHover : {}),
+                  }}
+                  {...item.props}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </nav>
+            <button
+              onClick={toggleTheme}
+              style={{
+                ...styles.themeToggleButton,
+                ...(themeToggleHover ? styles.themeToggleButtonHover : {}),
+              }}
+              aria-label={`Switch to ${
+                mode === "light" ? "dark" : "light"
+              } mode`}
+              {...themeToggleProps}
+            >
+              {mode === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+          </div>
         ) : (
-          <button
-            style={styles.mobileMenuButton}
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle navigation"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div style={styles.navControls}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                ...styles.themeToggleButton,
+                ...(themeToggleHover ? styles.themeToggleButtonHover : {}),
+              }}
+              aria-label={`Switch to ${
+                mode === "light" ? "dark" : "light"
+              } mode`}
+              {...themeToggleProps}
+            >
+              {mode === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
+            <button
+              style={styles.mobileMenuButton}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle navigation"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         )}
       </div>
 
       {!isDesktop && (
         <nav style={styles.mobileNav}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "0.5rem",
-            }}
-          >
+          <div style={styles.mobileNavList}>
             {navItems.map((item) => (
-              <a
+              <MobileNavLink
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                style={styles.mobileNavLink}
               >
                 {item.name}
-              </a>
+              </MobileNavLink>
             ))}
           </div>
         </nav>
