@@ -1,12 +1,11 @@
 // src/components/About.jsx
 import React, { useState } from "react";
 import { Download } from "lucide-react";
-import { theme } from "../theme";
+import { useTheme } from "../hooks/useTheme";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import assets from "../assets/assets";
 import WavyUnderline from "./WavyUnderline";
 
-// Reusable hook for hover states
 const useHover = () => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverProps = {
@@ -17,6 +16,7 @@ const useHover = () => {
 };
 
 const About = () => {
+  const { theme } = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.lg);
   const [resumeHover, resumeProps] = useHover();
 
@@ -32,9 +32,7 @@ const About = () => {
   ];
 
   const styles = {
-    section: {
-      padding: "6rem 0",
-    },
+    section: { padding: "6rem 0" },
     container: {
       display: "flex",
       flexDirection: isDesktop ? "row" : "column",
@@ -47,27 +45,28 @@ const About = () => {
       flexDirection: "column",
       alignItems: "center",
     },
-    avatarContainer: {
-      position: "relative",
-      marginBottom: "1.5rem",
-    },
+    avatarContainer: { position: "relative", marginBottom: "1.5rem" },
     avatar: {
       width: "14rem",
       height: "14rem",
       borderRadius: "9999px",
       objectFit: "cover",
-      boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)",
-      border: "4px solid white",
+      boxShadow: `0 10px 25px -5px ${
+        theme.mode === "dark" ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)"
+      }`,
+      border: `4px solid ${theme.colors.cardBg}`,
     },
     avatarEmoji: {
       position: "absolute",
       bottom: "1rem",
       right: "1rem",
       fontSize: "2.25rem",
-      backgroundColor: "white",
+      backgroundColor: theme.colors.cardBg,
       borderRadius: "9999px",
       padding: "0.5rem",
-      boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
+      boxShadow: `0 4px 6px -1px ${
+        theme.mode === "dark" ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)"
+      }`,
     },
     skillsCard: {
       width: "100%",
@@ -109,17 +108,15 @@ const About = () => {
       fontSize: "2.25rem",
       fontWeight: "800",
       marginBottom: "0.5rem",
+      color: theme.colors.textPrimary,
       fontFamily: theme.fonts.heading,
     },
     bioText: {
       fontSize: "1.125rem",
-      color: theme.colors.textLight,
+      color: theme.colors.textSecondary,
       lineHeight: 1.7,
     },
-    bioTextStrong: {
-      color: theme.colors.textDark,
-      fontWeight: "600",
-    },
+    bioTextStrong: { color: theme.colors.textPrimary, fontWeight: "600" },
     buttonBase: {
       display: "inline-flex",
       alignItems: "center",
@@ -150,7 +147,6 @@ const About = () => {
   return (
     <section id="about" style={styles.section}>
       <div style={styles.container}>
-        {/* Left Column: Avatar & Skills */}
         <div style={styles.leftColumn}>
           <div style={styles.avatarContainer}>
             <img
@@ -163,7 +159,6 @@ const About = () => {
             />
             <span style={styles.avatarEmoji}>👋</span>
           </div>
-
           <div style={styles.skillsCard}>
             <h3 style={styles.skillsTitle}>My Core Skills</h3>
             <div style={styles.skillsContainer}>
@@ -180,20 +175,24 @@ const About = () => {
                       backgroundColor: pillStyle.bg,
                       color: pillStyle.text,
                     }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.05)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
                   >
-                    {skill}
+                    {" "}
+                    {skill}{" "}
                   </span>
                 );
               })}
             </div>
           </div>
         </div>
-
-        {/* Right Column: Bio Content */}
         <div style={styles.rightColumn}>
           <h2 style={styles.title}>About Me</h2>
           <WavyUnderline />
-
           <p style={{ ...styles.bioText, marginTop: "1.5rem" }}>
             Hi, I’m a passionate and driven{" "}
             <strong style={styles.bioTextStrong}>
@@ -225,10 +224,9 @@ const About = () => {
             results. For me, development isn’t just about writing code — it’s
             about building intuitive solutions that make an impact.
           </p>
-
           <div>
             <a
-              href="/Jimutha-Ranawaka-CV.pdf" // Ensure your CV is in the 'public' folder
+              href="/Jimutha-Ranawaka-CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               style={{

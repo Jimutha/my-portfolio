@@ -4,9 +4,8 @@ import useTitleRotator from "../hooks/useTitleRotator";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { Send, Code } from "lucide-react";
 import assets from "../assets/assets";
-import { theme } from "../theme";
+import { useTheme } from "../hooks/useTheme";
 
-// Reusable hook for hover states
 const useHover = () => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverProps = {
@@ -17,6 +16,7 @@ const useHover = () => {
 };
 
 const Hero = () => {
+  const { theme } = useTheme();
   const { currentTitle, isFadingOut } = useTitleRotator();
   const isDesktop = useMediaQuery(theme.breakpoints.lg);
 
@@ -28,6 +28,8 @@ const Hero = () => {
       position: "relative",
       padding: "5rem 1.5rem 7rem 1.5rem",
       overflow: "hidden",
+      backgroundColor: theme.colors.background,
+      transition: theme.transition,
     },
     blob1: {
       position: "absolute",
@@ -35,7 +37,10 @@ const Hero = () => {
       right: "-5rem",
       width: "18rem",
       height: "18rem",
-      backgroundColor: "rgba(255, 215, 64, 0.3)", // brandYellow/30
+      backgroundColor:
+        theme.mode === "light"
+          ? "rgba(255, 215, 64, 0.3)"
+          : "rgba(255, 215, 64, 0.1)",
       borderRadius: "9999px",
       mixBlendMode: "multiply",
       filter: "blur(3rem)",
@@ -48,7 +53,10 @@ const Hero = () => {
       left: "-5rem",
       width: "20rem",
       height: "20rem",
-      backgroundColor: "rgba(68, 138, 255, 0.3)", // brandBlue/30
+      backgroundColor:
+        theme.mode === "light"
+          ? "rgba(68, 138, 255, 0.3)"
+          : "rgba(68, 138, 255, 0.1)",
       borderRadius: "9999px",
       mixBlendMode: "multiply",
       filter: "blur(3rem)",
@@ -77,13 +85,10 @@ const Hero = () => {
       fontWeight: "900",
       lineHeight: 1.2,
       marginBottom: "1rem",
-      color: theme.colors.textDark,
+      color: theme.colors.textPrimary,
       fontFamily: theme.fonts.heading,
     },
-    animatedTitleWrapper: {
-      height: "2.5rem", // 40px
-      marginBottom: "1.5rem",
-    },
+    animatedTitleWrapper: { height: "2.5rem", marginBottom: "1.5rem" },
     animatedTitle: {
       fontSize: "1.875rem",
       fontWeight: "600",
@@ -94,7 +99,7 @@ const Hero = () => {
     },
     subtitle: {
       fontSize: "1.25rem",
-      color: theme.colors.textLight,
+      color: theme.colors.textSecondary,
       maxWidth: "32rem",
       margin: isDesktop ? "0 0 2rem 0" : "0 auto 2rem auto",
       lineHeight: 1.6,
@@ -144,30 +149,23 @@ const Hero = () => {
       display: "flex",
       justifyContent: isDesktop ? "flex-end" : "center",
     },
-    illustration: {
-      width: "100%",
-      maxWidth: isDesktop ? "32rem" : "24rem",
-    },
+    illustration: { width: "100%", maxWidth: isDesktop ? "32rem" : "24rem" },
   };
 
   return (
     <section id="hero" style={styles.section}>
       <div style={styles.blob1}></div>
       <div style={styles.blob2}></div>
-
       <div style={styles.container}>
         <div style={styles.content}>
           <h1 style={styles.title}>Jimutha Ranawaka</h1>
-
           <div style={styles.animatedTitleWrapper}>
             <h2 style={styles.animatedTitle}>{currentTitle}</h2>
           </div>
-
           <p style={styles.subtitle}>
             Crafting intuitive & high-performance digital solutions across the
             stack.
           </p>
-
           <div style={styles.buttonContainer}>
             <a
               href="#projects"
@@ -195,7 +193,6 @@ const Hero = () => {
             </a>
           </div>
         </div>
-
         <div style={styles.illustrationContainer}>
           <img
             src={assets.heroIllustration}
@@ -203,7 +200,7 @@ const Hero = () => {
             style={styles.illustration}
             onError={(e) => {
               e.target.style.display = "none";
-            }} // Hide if image fails to load
+            }}
           />
         </div>
       </div>

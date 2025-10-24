@@ -1,18 +1,21 @@
-//src/assets/assets.js
+// src/assets/assets.js
+// IMPORTANT: Ensure all image files exist in this folder.
 
-import profilephoto from "../assets/profile-photo.jpg";
-import heroIllustration from "../assets/hero_illustration.svg";
-import placeholderFoodGallery from "../assets/placeholder-foodgallery.png";
-import placeholderElectroMart from "../assets/placeholder-electromart.png";
-import placeholderABC from "../assets/placeholder-abc.png";
-import placeholderLibrary from "../assets/placeholder-library.png";
-import placeholderIkman from "../assets/placeholder-ikman.png";
-import placeholderTask from "../assets/placeholder-task.png";
-import placeholderKitcher from "../assets/placeholder-kitcher.png";
+import profilephoto from "./profile-photo.jpg";
+import heroIllustration from "./hero_illustration.png";
+import placeholderPicknGo from "./placeholder-pickngo.jpg";
+import placeholderFoodGallery from "./placeholder-foodgallery.png";
+import placeholderElectroMart from "./placeholder-electromart.png";
+import placeholderABC from "./placeholder-abc.png";
+import placeholderLibrary from "./placeholder-library.png";
+import placeholderIkman from "./placeholder-ikman.png";
+import placeholderTask from "./placeholder-task.png";
+import placeholderKitcher from "./placeholder-kitcher.png";
 
 const assets = {
   profilephoto,
   heroIllustration,
+  placeholderPicknGo,
   placeholderFoodGallery,
   placeholderElectroMart,
   placeholderABC,

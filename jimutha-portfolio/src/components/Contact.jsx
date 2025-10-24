@@ -1,10 +1,9 @@
 // src/components/Contact.jsx
 import React, { useState } from "react";
 import { Send, Mail } from "lucide-react";
-import { theme } from "../theme";
+import { useTheme } from "../hooks/useTheme";
 import WavyUnderline from "./WavyUnderline";
 
-// Reusable hook for hover states
 const useHover = () => {
   const [isHovered, setIsHovered] = useState(false);
   const hoverProps = {
@@ -15,23 +14,22 @@ const useHover = () => {
 };
 
 const Contact = () => {
+  const { theme } = useTheme();
   const [sendHover, sendProps] = useHover();
   const [emailHover, emailProps] = useHover();
 
-  // State for focused inputs
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [messageFocused, setMessageFocused] = useState(false);
 
   const styles = {
-    section: {
-      padding: "6rem 0",
-    },
+    section: { padding: "6rem 0" },
     title: {
       fontSize: "2.25rem",
       fontWeight: "800",
       marginBottom: "0.5rem",
       textAlign: "center",
+      color: theme.colors.textPrimary,
       fontFamily: theme.fonts.heading,
     },
     underlineContainer: {
@@ -41,7 +39,7 @@ const Contact = () => {
     },
     subtitle: {
       fontSize: "1.25rem",
-      color: theme.colors.textLight,
+      color: theme.colors.textSecondary,
       marginBottom: "3rem",
       maxWidth: "36rem",
       margin: "0 auto 3rem auto",
@@ -57,40 +55,40 @@ const Contact = () => {
       boxShadow: theme.shadows.cardSoft,
       border: `1px solid ${theme.colors.borderLight}`,
     },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "1.5rem",
-    },
+    form: { display: "flex", flexDirection: "column", gap: "1.5rem" },
     label: {
       display: "block",
       fontSize: "0.875rem",
       fontWeight: "500",
-      color: theme.colors.textLight,
+      color: theme.colors.textSecondary,
       marginBottom: "0.5rem",
     },
     inputBase: {
       width: "100%",
       padding: "0.75rem 1rem",
-      backgroundColor: theme.colors.baseLight,
+      backgroundColor: theme.colors.inputBg,
       border: `2px solid ${theme.colors.borderGray}`,
       borderRadius: "0.5rem",
       fontSize: "1rem",
-      color: theme.colors.textDark,
+      color: theme.colors.textPrimary,
       transition: "border-color 0.15s ease, box-shadow 0.15s ease",
       outline: "none",
       fontFamily: theme.fonts.sans,
     },
     inputFocused: {
       borderColor: theme.colors.accentPrimary,
-      boxShadow: `0 0 0 3px rgba(29, 233, 182, 0.3)`,
+      boxShadow: `0 0 0 3px ${
+        theme.mode === "light"
+          ? "rgba(29, 233, 182, 0.3)"
+          : "rgba(29, 233, 182, 0.5)"
+      }`,
     },
     buttonBase: {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       gap: "0.5rem",
-      padding: "0.875rem 1.5rem", // A bit larger
+      padding: "0.875rem 1.5rem",
       borderRadius: "9999px",
       fontWeight: "600",
       transition: theme.transition,
@@ -113,7 +111,7 @@ const Contact = () => {
     emailContainer: {
       marginTop: "2rem",
       textAlign: "center",
-      color: theme.colors.textLight,
+      color: theme.colors.textSecondary,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -125,9 +123,7 @@ const Contact = () => {
       fontWeight: "600",
       textDecoration: "none",
     },
-    emailLinkHover: {
-      textDecoration: "underline",
-    },
+    emailLinkHover: { textDecoration: "underline" },
   };
 
   return (
@@ -140,13 +136,12 @@ const Contact = () => {
         Have a project in mind, a job opportunity, or just want to talk cricket?
         Reach out!
       </p>
-
       <div style={styles.formContainer}>
         <form
           name="contact"
           method="POST"
-          action="https://formspree.io/f/YOUR_FORM_ID" // <-- IMPORTANT: REPLACE WITH YOUR FORMSPREE ID
-          style={styles.form}
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          /* <-- REPLACE ID */ style={styles.form}
         >
           <div>
             <label htmlFor="name" style={styles.label}>
@@ -216,7 +211,6 @@ const Contact = () => {
             <span>Send Message</span>
           </button>
         </form>
-
         <div style={styles.emailContainer}>
           <Mail size={18} style={{ color: theme.colors.accentDark }} />
           <span>or email directly: </span>
@@ -228,7 +222,8 @@ const Contact = () => {
             }}
             {...emailProps}
           >
-            Jimuthasr11@gmail.com
+            {" "}
+            Jimuthasr11@gmail.com{" "}
           </a>
         </div>
       </div>

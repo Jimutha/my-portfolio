@@ -1,7 +1,6 @@
 // src/data/projects.js
 import assets from "../assets/assets";
 
-// Your projects data, now using the asset manager
 export const PROJECTS = [
   {
     id: 1,

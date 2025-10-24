@@ -1,21 +1,19 @@
 // src/components/Footer.jsx
 import React, { useState } from "react";
 import { Linkedin, Github, Instagram, MessageSquare } from "lucide-react";
-import { theme } from "../theme";
+import { useTheme } from "../hooks/useTheme";
 
-// A component for hoverable icons
 const SocialIcon = ({ href, label, children }) => {
+  const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
-
   const style = {
-    color: isHovered ? theme.colors.accentPrimary : theme.colors.textLight,
+    color: isHovered ? theme.colors.accentPrimary : theme.colors.textSecondary,
     transform: isHovered
       ? "scale(1.1) translateY(-2px)"
       : "scale(1) translateY(0)",
     transition: theme.transition,
-    display: "inline-block", // Added for transform
+    display: "inline-block",
   };
-
   return (
     <a
       href={href}
@@ -26,12 +24,14 @@ const SocialIcon = ({ href, label, children }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {children}
+      {" "}
+      {children}{" "}
     </a>
   );
 };
 
 const Footer = () => {
+  const { theme } = useTheme();
   const socialLinks = [
     {
       icon: <Linkedin size={26} />,
@@ -62,6 +62,7 @@ const Footer = () => {
       marginTop: "4rem",
       padding: "3rem 1.5rem",
       textAlign: "center",
+      transition: theme.transition,
     },
     name: {
       fontSize: "1.25rem",
@@ -76,24 +77,20 @@ const Footer = () => {
       gap: "2rem",
       marginBottom: "2rem",
     },
-    copyright: {
-      fontSize: "0.875rem",
-      color: theme.colors.textLight,
-    },
+    copyright: { fontSize: "0.875rem", color: theme.colors.textSecondary },
   };
 
   return (
     <footer style={styles.footer}>
       <h3 style={styles.name}>Jimutha Ranawaka</h3>
-
       <div style={styles.socialContainer}>
         {socialLinks.map((link, index) => (
           <SocialIcon key={index} href={link.href} label={link.label}>
-            {link.icon}
+            {" "}
+            {link.icon}{" "}
           </SocialIcon>
         ))}
       </div>
-
       <p style={styles.copyright}>
         Designed & Built by Jimutha Ranawaka | &copy; {new Date().getFullYear()}
         . All rights reserved.
